@@ -1,0 +1,45 @@
+#!/usr/bin/env node
+
+'use strict';
+
+var path = require('path')
+  , fs = require('fs');
+
+var async = require('async')
+  , program = require('commander')
+  , saveLoc = process.cwd();
+
+var defaults = require('../conf/trello.js')();
+
+program
+  .version(require('../package.json').version)
+  .option('--api-key <string>')
+  .option('--board-url <string>')
+  .option('--token <string>')
+  .option('--silent <bool>', 'Toggle output logging', false)
+  .parse(process.argv);
+
+var getStories = function(cb) {
+  return require('../libs/stories.js')(program, cb);
+};
+
+var finish = function(err, result) {
+  if(err) { throw err; }
+  console.log(result);
+  if(!program.silent) {
+    console.log('Done.');
+  }
+};
+
+// Setup default command-line options.
+if(!program.apiKey){
+  program.apiKey = defaults.apiKey
+}
+if(!program.token){
+  program.token = defaults.token
+}
+
+async.series([
+  getStories
+], finish);
+

@@ -11,35 +11,61 @@ var async = require('async')
 
 var defaults = require('../conf/trello.js')();
 
+var trelloData = {},
+    releaseData = {}
+
 program
   .version(require('../package.json').version)
   .option('--api-key <string>')
-  .option('--board-url <string>')
+  .option('--board-id <string>')
   .option('--token <string>')
   .option('--silent <bool>', 'Toggle output logging', false)
   .parse(process.argv);
 
-var getStories = function(cb) {
-  return require('../libs/stories.js')(program, cb);
+// Setup default command-line options.
+if(!program.apiKey){
+  program.apiKey = defaults.apiKey;
+}
+if(!program.token){
+  program.token = defaults.token;
+}
+if(!program.boardId){
+  program.boardId = defaults.boardId;
+}
+
+var getReleaseCard = function(cb) {
+  require('../libs/release-card.js')(program, trelloData, cb);
+};
+
+var getCompletedStories = function(cb) {
+  require('../libs/completed-stories.js')(program, trelloData, cb);
+};
+
+var getBoardInfo = function(cb) {
+  require('../libs/board-info.js')(program, trelloData, cb);
+};
+
+var formatReleaseData = function(cb) {
+  require('../libs/format-release-data')(trelloData, releaseData, cb);
+};
+
+var outputTestData = function(cb) {
+  require('../libs/output-test-data')(trelloData, releaseData, cb);
 };
 
 var finish = function(err, result) {
   if(err) { throw err; }
-  console.log(result);
   if(!program.silent) {
+    console.log(releaseData);
     console.log('Done.');
   }
 };
 
-// Setup default command-line options.
-if(!program.apiKey){
-  program.apiKey = defaults.apiKey
-}
-if(!program.token){
-  program.token = defaults.token
-}
-
 async.series([
-  getStories
+  getReleaseCard,
+  getCompletedStories,
+  getBoardInfo,
+  formatReleaseData,
+  outputTestData
 ], finish);
 

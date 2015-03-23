@@ -8,11 +8,13 @@ module.exports = function() {
 
     token: '7081112ba1a93232c20b9315729cebf6a4ee6925c9a4bbd837f20e879d6daa08',
 
-    cards: {
-      notes: "Release Notes"
-    },
+    boardId: '5XAuS2Mf',
 
-    doneList: 'Live/Done'
+    releaseCard: 'Release Notes',
+
+    doneList: 'Live/Done',
+
+    donedoneDomain: 'ivantage'
 
   };
 };

@@ -6,20 +6,24 @@ module.exports = function() {
 
     products: [
       {
-        "id": "invision",
-        "name": "INVISION"
+        id: 'invision',
+        name: 'INVISION'
       },
       {
-        "id": "indicator",
-        "name": "INDICATOR"
+        id: 'indicator',
+        name: 'INDICATOR'
       },
       {
-        "id": "incontrol",
-        "name": "INCONTROL"
+        id: 'incontrol',
+        name: 'INCONTROL'
       },
       {
-        "id": "dataexchange",
-        "name": "DataExchange"
+        id: 'dataexchange',
+        name: 'DataExchange'
+      },
+      {
+        id: 'vbp',
+        name: 'VBP'
       }
     ]
 

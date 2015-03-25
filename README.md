@@ -1,16 +1,25 @@
-#  [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url]
+# ivanocco
 
 > Release note generator for Trello Scrum boards
 
+Bare-bones "convention-over-configuration" release note generator for a Trello-based sprint board. Outputs a formatted HTML
+file containing a list of completed stories and DoneDone issues from the given sprint.
+
+Todo:
+
+- Show sprint image and timebox?
+- Incorporate data from multiple sprints?
+- Run as web application?
+- Show title of DoneDone issue?
 
 ## Install
 
 ```sh
-$ npm install --save ivanocco
+$ npm install -g ivanocco
 ```
 
 
-## Usage
+## Usage (cli)
 
 Command-line options:
 
@@ -24,21 +33,6 @@ Command-line options:
 --outFile         [string]    Name of the generated file
 ```
 
-
-```sh
-$ npm install --global ivanocco
-$ ivanocco --help
-```
-
-
 ## License
 
 MIT © [Clayton Donahue](www.ivantagehealth.com)
-
-
-[npm-image]: https://badge.fury.io/js/ivanocco.svg
-[npm-url]: https://npmjs.org/package/ivanocco
-[travis-image]: https://travis-ci.org/cdonahue/ivanocco.svg?branch=master
-[travis-url]: https://travis-ci.org/cdonahue/ivanocco
-[daviddm-image]: https://david-dm.org/cdonahue/ivanocco.svg?theme=shields.io
-[daviddm-url]: https://david-dm.org/cdonahue/ivanocco

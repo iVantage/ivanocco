@@ -28,6 +28,22 @@ module.exports = function() {
       {
         id: 'puma',
         name: 'PUMA'
+      },
+      {
+        id: 'inform',
+        name: 'INFORM'
+      },
+      {
+        id: 'insights',
+        name: 'INSIGHTS'
+      },
+      {
+        id: 'index',
+        name: 'INDEX'
+      },
+      {
+        id: 'iblite',
+        name: 'IB Lite'
       }
     ]
 

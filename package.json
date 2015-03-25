@@ -1,23 +1,22 @@
 {
   "name": "ivanocco",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Release note generator for Trello Scrum boards",
   "author": {
     "name": "Clayton Donahue",
-    "email": "clayton.donahue@gmail.com",
     "url": "www.ivantagehealth.com"
   },
   "repository": "cdonahue/ivanocco",
   "license": "MIT",
   "keywords": [
     "ivanocco",
-    ""
+    "ivantage"
   ],
   "dependencies": {
     "async": "^0.9.0",
     "commander": "^2.7.1",
-    "lodash": "^3.5.0",
-    "lodash.after": "^3.0.1",
+    "handlebars": "^3.0.0",
+    "marked": "^0.3.3",
     "node-trello": "^1.1.0",
     "request": "^2.53.0"
   },
@@ -30,9 +29,6 @@
     "jshint-stylish": "^1.0.1",
     "load-grunt-tasks": "^3.1.0",
     "time-grunt": "^1.1.0"
-  },
-  "scripts": {
-    "test": "grunt"
   },
   "bin": {
     "ivanocco": "./bin/ivanocco"

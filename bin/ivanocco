@@ -9,63 +9,106 @@ var async = require('async')
   , program = require('commander')
   , saveLoc = process.cwd();
 
-var defaults = require('../conf/trello.js')();
-
 var trelloData = {},
     releaseData = {}
 
 program
   .version(require('../package.json').version)
-  .option('--api-key <string>')
-  .option('--board-id <string>')
+  .option('--apiKey <string>')
+  .option('--boardId <string>')
   .option('--token <string>')
+  .option('--outFile <string>')
+  .option('--donedoneDomain <string>')
+  .option('--doneList <string>')
+  .option('--releaseCard <string>')
   .option('--silent <bool>', 'Toggle output logging', false)
   .parse(process.argv);
 
-// Setup default command-line options.
-if(!program.apiKey){
-  program.apiKey = defaults.apiKey;
-}
-if(!program.token){
-  program.token = defaults.token;
-}
-if(!program.boardId){
-  program.boardId = defaults.boardId;
-}
+// Read the .donedonerc file, if one exists.
+var readIvanoccorc = function(cb) {
+  if(fs.existsSync('.ivanoccorc')) {
+    try {
+      var ivanoccorc = JSON.parse(fs.readFileSync('.ivanoccorc', {encoding: 'utf8'}));
+      Object.keys(ivanoccorc).forEach(function(key){
+        if(!program.hasOwnProperty(key) || program[key] == defaults[key]) {
+          program[key] = ivanoccorc[key];
+        }
+      });
+      cb(null);
+    } catch(err) {
+      console.log('Unable to parse .ivanoccorc file!');
+      cb(err);
+    }
+  } else {
+    cb(null);
+  }
+};
 
+/**
+ * Retrieve information from the "Release Card"
+ * @param  {Function} Series callback
+ */
 var getReleaseCard = function(cb) {
   require('../libs/release-card.js')(program, trelloData, cb);
 };
 
+/**
+ * Retrieve all completed stories for the board
+ * @param  {Function} Series callback
+ */
 var getCompletedStories = function(cb) {
   require('../libs/completed-stories.js')(program, trelloData, cb);
 };
 
+/**
+ * Retrieve general board information
+ * @param  {Function} Series callback
+ */
 var getBoardInfo = function(cb) {
   require('../libs/board-info.js')(program, trelloData, cb);
 };
 
+/**
+ * Format the raw data into a useable format
+ * @param  {Function} Series callback
+ */
 var formatReleaseData = function(cb) {
-  require('../libs/format-release-data')(trelloData, releaseData, cb);
+  require('../libs/format-release-data')(program, trelloData, releaseData, cb);
 };
 
+/**
+ * Outputs debugging data
+ * @param  {Function} Series callback
+ */
 var outputTestData = function(cb) {
-  require('../libs/output-test-data')(trelloData, releaseData, cb);
+  if(!program.silent) {
+    require('../libs/output-test-data')(trelloData, releaseData, cb);
+  }
 };
+
+/**
+ * Generates the output from the Handlebars template and formatted data.
+ * @param  {Function} Series callback
+ */
+var createReleaseNotes = function(cb) {
+  require('../libs/create-release-notes')(program, releaseData, cb);
+}
 
 var finish = function(err, result) {
   if(err) { throw err; }
   if(!program.silent) {
-    console.log(releaseData);
     console.log('Done.');
   }
 };
 
+// Run all the tasks ...
 async.series([
+  readIvanoccorc,
   getReleaseCard,
   getCompletedStories,
   getBoardInfo,
   formatReleaseData,
-  outputTestData
+  outputTestData,
+  createReleaseNotes
 ], finish);
 

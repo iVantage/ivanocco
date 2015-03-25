@@ -18,7 +18,7 @@ module.exports = {
             return cb(null, lists[ix].id);
           }
         }
-        cb(new err(format('Could not find a list %s in board %s.', listNameLowerCase, boardId)));
+        cb(new Error(format('Could not find a list %s in board %s.', listNameLowerCase, boardId)));
       });
     };
   }

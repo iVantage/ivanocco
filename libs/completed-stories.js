@@ -5,12 +5,11 @@ module.exports = function(program, release, cb) {
       format = require('util').format,
       Trello = require('node-trello');
 
-  var conf = require('../conf/trello.js')(),
-      trello = new Trello(program.apiKey, program.token),
+  var trello = new Trello(program.apiKey, program.token),
       trelloUtils = require('../libs/trello-utils.js');
 
   var boardId = program.boardId,
-      doneList = conf.doneList.toLowerCase();
+      doneList = program.doneList.toLowerCase();
 
   /**
    * Returns a list of "done" stories in the board.
@@ -23,7 +22,7 @@ module.exports = function(program, release, cb) {
       if(err) {return cb(err);}
       var doneStories = data.filter(function(item) {
         return item.idList.toLowerCase() === listId;
-      })
+      });
       return cb(null, doneStories);
     });
   };

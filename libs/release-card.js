@@ -5,11 +5,10 @@ module.exports = function(program, release, cb) {
       format = require('util').format,
       Trello = require('node-trello');
 
-  var conf = require('../conf/trello.js')(),
-      trello = new Trello(program.apiKey, program.token);
+  var trello = new Trello(program.apiKey, program.token);
 
   var boardId = program.boardId,
-      releaseCard = conf.releaseCard.toLowerCase();
+      releaseCard = program.releaseCard.toLowerCase();
 
   /**
    * Returns a list of "done" stories in the board.
@@ -22,7 +21,7 @@ module.exports = function(program, release, cb) {
       if(err) {return cb(err);}
       var card = data.filter(function(item) {
         return item.name.toLowerCase() === releaseCard;
-      })
+      });
       card = card.length > 0 ? card.shift() : {};
       return cb(null, card);
     });
@@ -33,6 +32,8 @@ module.exports = function(program, release, cb) {
   ], function(err, result) {
     if(result && result.length >0) {
       release.releaseCard = result[0];
+    } else {
+      release.releaseCard = null;
     }
     return err ? cb(err) : cb(null, result);
   });

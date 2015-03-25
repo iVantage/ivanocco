@@ -1,47 +1,96 @@
-module.exports = function(trelloData, releaseData, cb) {
+module.exports = function(program, trelloData, releaseData, cb) {
   'use strict';
 
-  var products = require('../conf/products.js')().products;
-  var donedoneDomain = require('../conf/trello.js')().donedoneDomain;
+  var marked = require('marked'),
+      products = require('../conf/products.js')().products;
+
+  var donedoneDomain = program.donedoneDomain;
 
   // First, let's get the important sprint information.
   releaseData.sprint = {};
   releaseData.sprint.name = trelloData.boardInfo.name;
-  releaseData.sprint.description = trelloData.releaseCard.desc;
+  releaseData.sprint.description = trelloData.releaseCard.desc ? marked(trelloData.releaseCard.desc) : '[No description provided]';
+  releaseData.year = new Date().getFullYear();
 
 
-  // Now, let's get the release information
+  // Retrieve story and donedone information for each product
   products.forEach(function(product){
     if(!releaseData.products) {
       releaseData.products = {};
     }
 
     var productId = product.id;
-    console.log("Processing: " + productId);
 
+    // Get only the stories for this product.
     var stories = trelloData.stories.filter(function(story){
       return story.labels.filter(function(label) {
         return label.name.toLowerCase() === productId;
       }).length > 0;
-    })
+    }).map(function(item) {
 
-    var donedone = [];
-    var pattern = new RegExp('/(https?:\/\/)?(' + donedoneDomain + '\.mydonedone)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?/','i');
-
-    stories.forEach(function(story) {
-      if(pattern.exec(story.desc)) {
-        // todo: get regex match.
-        donedone.push(RegExp.$1);
+      // Get the points so that we can order by story complexity.
+      var points;
+      if(/^\((\d+)\).*/.exec(item.name)) {
+        points = Number(RegExp.$1);
+        if(isNaN(points)) {
+          points = -1;
+        }
       }
+
+      // Replace "estimated" and "actual" value annotations;
+      var name = item.name.replace(/(\(|\[)(\d+)(\)|\])(\s)*/ig, '');
+
+      return {
+        name: name,
+        desc: marked(item.desc),
+        url: item.shortUrl,
+        points: points
+      };
     });
 
-    var info = {
-      stories: stories,
-      donedone: donedone,
-      changelog: []
-    };
+    if(stories.length > 0) {
 
-    releaseData.products[productId] = info;
+      // Sort the stories by total points
+      stories.sort(function(item1, item2){
+        return item1.points < item2.points;
+      });
+
+      // Get any embedded DoneDone links
+      var donedone = [],
+          matches,
+          match,
+          url,
+          info,
+          pattern = new RegExp('https://' + donedoneDomain + '\.mydonedone\.com/issuetracker/projects/([0-9])*/issues/([0-9])*','ig');
+
+      stories.forEach(function(story) {
+        matches = story.desc.match(pattern);
+        if(matches) {
+          try {
+            url = RegExp.lastMatch;
+            match = url.match('issues\/([0-9]*)');
+            if(match) {
+              donedone.push({
+                url: url,
+                issue: match[1]
+              });
+            }
+          } catch (err) {
+            cb(err);
+          }
+        }
+      });
+
+      info = {
+        label: productId.toUpperCase(),
+        stories: stories,
+        donedone: donedone,
+        changelog: []
+      };
+
+      releaseData.products[productId] = info;
+
+    }
   });
 
   cb();

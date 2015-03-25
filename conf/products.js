@@ -24,6 +24,10 @@ module.exports = function() {
       {
         id: 'vbp',
         name: 'VBP'
+      },
+      {
+        id: 'puma',
+        name: 'PUMA'
       }
     ]
 

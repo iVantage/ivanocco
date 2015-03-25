@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Release Notes - {{sprint.name}}</title>
+  <link rel="stylesheet" href="https://ivantagecdn.com/ivantage/bootstrap/v1.0.3/css/bootstrap.min.css">
+  <style type="text/css">
+  .product-section {
+    padding-left:20px;
+  }
+  </style>
+</head>
+<body>
+
+  <div class="container body-content">
+    <div id="main-content" class="main-content">
+
+      <h1>Release Notes for {{sprint.name}}</h1>
+
+      <div class="well">
+        <p>{{{sprint.description}}}</p>
+      </div>
+
+      <h2>Applications Updated</h2>
+      <ul>
+      {{#each products}}
+        <li><a href="#{{@key}}">{{label}}</a></li>
+      {{/each}}
+      </ul>
+
+      {{#each products}}
+        <h3><a name="{{@key}}"></a>{{label}}</h3>
+        <div class="container">
+          <h4>Stories</h4>
+          <ul>
+          {{#each stories}}
+            <li>{{name}} <a href="{{url}}" title="Go to this card" target="_blank">(view)</a></li>
+          {{/each}}
+          </ul>
+
+          {{#if donedone}}
+            <h4>DoneDone</h4>
+            <ul>
+            {{#each donedone}}
+              <li><a href="{{url}}" target="_blank">Issue #{{issue}}</a></li>
+            {{/each}}
+            </ul>
+          {{/if}}
+        </div>
+      {{/each}}
+
+      <footer>
+          <hr>
+          <div class="row">
+              <div class="col-md-4">&copy; {{year}} iVantage Health Analytics, Inc.</div>
+              <div class="col-md-3"></div>
+              <div class="col-md-5 text-right"><a href="http://www.ivantagehealth.com">www.ivantagehealth.com</a></div>
+          </div>
+      </footer>
+
+    </div>
+  </div>
+</body>
+</html>

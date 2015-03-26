@@ -30,7 +30,7 @@ var readIvanoccorc = function(cb) {
     try {
       var ivanoccorc = JSON.parse(fs.readFileSync('.ivanoccorc', {encoding: 'utf8'}));
       Object.keys(ivanoccorc).forEach(function(key){
-        if(!program.hasOwnProperty(key) || program[key] == defaults[key]) {
+        if(!program.hasOwnProperty(key)) {
           program[key] = ivanoccorc[key];
         }
       });

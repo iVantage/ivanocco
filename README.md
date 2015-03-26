@@ -5,6 +5,8 @@
 Bare-bones "convention-over-configuration" release note generator for a Trello-based sprint board. Outputs a formatted HTML
 file containing a list of completed stories and DoneDone issues from the given sprint.
 
+Initial implementation borrows from `ivanello` and `node-donedone-api`.
+
 Todo:
 
 - Show sprint image and timebox?
@@ -17,7 +19,6 @@ Todo:
 ```sh
 $ npm install -g ivanocco
 ```
-
 
 ## Usage (cli)
 

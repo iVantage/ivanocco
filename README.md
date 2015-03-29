@@ -34,6 +34,8 @@ Command-line options:
 --outFile         [string]    Name of the generated file
 ```
 
+These values can be stored in a `.ivanoccorc` file in your current working directory.
+
 ## License
 
 MIT © [Clayton Donahue](www.ivantagehealth.com)

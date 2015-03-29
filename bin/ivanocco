@@ -14,13 +14,12 @@ var trelloData = {},
 
 program
   .version(require('../package.json').version)
-  .option('--apiKey <string>')
-  .option('--boardId <string>')
+  .option('--api-key <string>')
+  .option('--board-id <string>')
   .option('--token <string>')
-  .option('--outFile <string>')
-  .option('--donedoneDomain <string>')
-  .option('--doneList <string>')
-  .option('--releaseCard <string>')
+  .option('--donedone-domain <string>')
+  .option('--done-list <string>')
+  .option('--release-card <string>')
   .option('--silent <bool>', 'Toggle output logging', false)
   .parse(process.argv);
 

@@ -61,14 +61,6 @@ var getCompletedStories = function(cb) {
 };
 
 /**
- * Retrieve general board information
- * @param  {Function} Series callback
- */
-var getBoardInfo = function(cb) {
-  require('../libs/board-info.js')(program, trelloData, cb);
-};
-
-/**
  * Format the raw data into a useable format
  * @param  {Function} Series callback
  */
@@ -106,7 +98,6 @@ async.series([
   readIvanoccorc,
   getReleaseCard,
   getCompletedStories,
-  getBoardInfo,
   formatReleaseData,
   outputTestData,
   createReleaseNotes

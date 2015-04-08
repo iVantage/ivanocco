@@ -1,23 +1,26 @@
 module.exports = function(program, trelloData, releaseData, cb) {
   'use strict';
 
-  var marked = require('marked');
+  var marked = require('marked'),
+      moment = require('moment');
 
   var products = trelloData.releaseCard.labels.map(function(l){
                     return {
                       id: l.name.toLowerCase(),
                       name: l.name
                     }
+                  }).sort(function(a,b){
+                    return a.name > b.name;
                   });
 
   var donedoneDomain = program.donedoneDomain;
 
   // First, let's get the important sprint information.
   releaseData.sprint = {};
-  releaseData.sprint.name = trelloData.boardInfo.name;
+  releaseData.sprint.name = trelloData.releaseCard.name;
   releaseData.sprint.description = trelloData.releaseCard.desc ? marked(trelloData.releaseCard.desc) : '[No description provided]';
   releaseData.year = new Date().getFullYear();
-
+  releaseData.timestamp = moment().format('MMMM D, YYYY');
 
   // Retrieve story and donedone information for each product
   products.forEach(function(product){
@@ -47,6 +50,7 @@ module.exports = function(program, trelloData, releaseData, cb) {
       var name = item.name.replace(/(\(|\[)((\d|\.)+)(\)|\])(\s)*/ig, '');
 
       return {
+        id: item.id,
         name: name,
         desc: marked(item.desc),
         url: item.shortUrl,

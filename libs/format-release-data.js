@@ -1,8 +1,14 @@
 module.exports = function(program, trelloData, releaseData, cb) {
   'use strict';
 
-  var marked = require('marked'),
-      products = require('../conf/products.js')().products;
+  var marked = require('marked');
+
+  var products = trelloData.releaseCard.labels.map(function(l){
+                    return {
+                      id: l.name.toLowerCase(),
+                      name: l.name
+                    }
+                  });
 
   var donedoneDomain = program.donedoneDomain;
 
@@ -38,7 +44,7 @@ module.exports = function(program, trelloData, releaseData, cb) {
       }
 
       // Replace "estimated" and "actual" value annotations;
-      var name = item.name.replace(/(\(|\[)(\d+)(\)|\])(\s)*/ig, '');
+      var name = item.name.replace(/(\(|\[)((\d|\.)+)(\)|\])(\s)*/ig, '');
 
       return {
         name: name,

@@ -4,7 +4,6 @@ module.exports = function(trelloData, releaseData, cb) {
   var fs = require('fs'),
       async = require('async');
 
-
   var trelloDataToFile = function(cb) {
     if(!fs.existsSync('data')) {
       fs.mkdirSync('data');

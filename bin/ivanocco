@@ -10,13 +10,14 @@ var async = require('async'),
     saveLoc = process.cwd();
 
 var trelloData = {},
-    releaseData = {}
+    releaseData = {};
 
 program
   .version(require('../package.json').version)
   .option('--api-key <string>')
   .option('--board-id <string>')
   .option('--token <string>')
+  .option('-o, --outfile <string>')
   .option('--donedone-domain <string>')
   .option('--done-list <string>')
   .option('--release-card <string>')

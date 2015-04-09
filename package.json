@@ -6,7 +6,10 @@
     "name": "Clayton Donahue",
     "url": "www.ivantagehealth.com"
   },
-  "repository": "cdonahue/ivanocco",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cdonahue/ivanocco"
+  },
   "license": "MIT",
   "keywords": [
     "ivanocco",
@@ -16,7 +19,9 @@
     "async": "^0.9.0",
     "commander": "^2.7.1",
     "handlebars": "^3.0.0",
+    "lodash.after": "^3.0.1",
     "marked": "^0.3.3",
+    "moment": "^2.10.0",
     "node-trello": "^1.1.0",
     "request": "^2.53.0"
   },
@@ -32,5 +37,17 @@
   },
   "bin": {
     "ivanocco": "./bin/ivanocco"
-  }
+  },
+  "gitHead": "1e9f8429fb76fe9d9e8a66849c374d5653548cb2",
+  "readme": "# ivanocco\r\n\r\n> Release note generator for Trello Scrum boards\r\n\r\nBare-bones \"convention-over-configuration\" release note generator for a Trello-based sprint board. Outputs a formatted HTML\r\nfile containing a list of completed stories and DoneDone issues from the given sprint.\r\n\r\nInitial implementation borrows from `ivanello` and `node-donedone-api`.\r\n\r\nTodo:\r\n\r\n- Show sprint image and timebox?\r\n- Incorporate data from multiple sprints?\r\n- Run as web application?\r\n- Show title of DoneDone issue?\r\n\r\n## Install\r\n\r\n```sh\r\n$ npm install -g ivanocco\r\n```\r\n\r\n## Usage (cli)\r\n\r\nCommand-line options:\r\n\r\n```\r\n--apiKey          [string]    Your Trello API key\r\n--token           [string]    Your Trello API token\r\n--boardId         [string]    The id of the Trello sprint board\r\n--releaseCard     [string]    The name of the card containing release notes\r\n--doneList        [string]    The name of the list containing \"done\" stories\r\n--donedoneDomain  [string]    The domain of your DoneDone account\r\n--outFile         [string]    Name of the generated file\r\n```\r\n\r\nThese values can be stored in a `.ivanoccorc` file in your current working directory.\r\n\r\n## License\r\n\r\nMIT © [Clayton Donahue](www.ivantagehealth.com)\r\n",
+  "readmeFilename": "README.md",
+  "bugs": {
+    "url": "https://github.com/cdonahue/ivanocco/issues"
+  },
+  "homepage": "https://github.com/cdonahue/ivanocco",
+  "_id": "ivanocco@0.1.0",
+  "_shasum": "24d26462dbcf20639ea0e269ad64f6c90716a905",
+  "_from": "git://github.com/ivantage/ivanocco",
+  "_resolved": "git://github.com/ivantage/ivanocco#1e9f8429fb76fe9d9e8a66849c374d5653548cb2",
+  "_fromGithub": true
 }

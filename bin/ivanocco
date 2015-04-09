@@ -10,13 +10,14 @@ var async = require('async'),
     saveLoc = process.cwd();
 
 var trelloData = {},
-    releaseData = {}
+    releaseData = {};
 
 program
   .version(require('../package.json').version)
   .option('--api-key <string>')
   .option('--board-id <string>')
   .option('--token <string>')
+  .option('-o, --outfile <string>')
   .option('--donedone-domain <string>')
   .option('--done-list <string>')
   .option('--release-card <string>')
@@ -60,14 +61,6 @@ var getCompletedStories = function(cb) {
 };
 
 /**
- * Retrieve general board information
- * @param  {Function} Series callback
- */
-var getBoardInfo = function(cb) {
-  require('../libs/board-info.js')(program, trelloData, cb);
-};
-
-/**
  * Format the raw data into a useable format
  * @param  {Function} Series callback
  */
@@ -105,7 +98,6 @@ async.series([
   readIvanoccorc,
   getReleaseCard,
   getCompletedStories,
-  getBoardInfo,
   formatReleaseData,
   outputTestData,
   createReleaseNotes

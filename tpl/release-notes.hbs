@@ -16,7 +16,7 @@
     <div id="main-content" class="main-content">
 
       <h1>Release Notes for {{sprint.name}}</h1>
-
+      <h5>Generated on: {{timestamp}}</h5>
       <div class="well">
         <p>{{{sprint.description}}}</p>
       </div>
@@ -34,7 +34,12 @@
           <h4>Stories</h4>
           <ul>
           {{#each stories}}
-            <li>{{name}} <a href="{{url}}" title="Go to this card" target="_blank">(view)</a></li>
+            <li>
+              {{name}}
+              <a href="javascript:jQuery('#{{id}}').toggle();void(0)" title="Go to this card">(details)</a>
+              <a href="{{url}}" title="Go to this card" target="_blank">(view)</a>
+              <div id="{{id}}" class="story-description well">{{{desc}}}</div>
+            </li>
           {{/each}}
           </ul>
 
@@ -61,4 +66,5 @@
     </div>
   </div>
 </body>
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
 </html>

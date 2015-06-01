@@ -25,13 +25,13 @@ $ npm install -g ivanocco
 Command-line options:
 
 ```
---apiKey          [string]    Your Trello API key
---token           [string]    Your Trello API token
---boardId         [string]    The id of the Trello sprint board
---releaseCard     [string]    The name of the card containing release notes
---doneList        [string]    The name of the list containing "done" stories
---donedoneDomain  [string]    The domain of your DoneDone account
---outFile         [string]    Name of the generated file
+--api-key          [string]    Your Trello API key
+--token            [string]    Your Trello API token
+--board-id         [string]    The id of the Trello sprint board
+--release-card     [string]    The name of the card containing release notes
+--done-list        [string]    The name of the list containing "done" stories
+--donedone-domain  [string]    The domain of your DoneDone account
+--ou-fFile         [string]    Name of the generated file
 ```
 
 These values can be stored in a `.ivanoccorc` file in your current working directory.
